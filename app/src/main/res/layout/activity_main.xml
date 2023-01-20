@@ -11,7 +11,7 @@
         android:id="@+id/editText"
         android:layout_width="264dp"
         android:layout_height="45dp"
-        android:hint="统一认证码"
+        android:hint="学号"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
@@ -33,14 +33,26 @@
 
     <EditText
         android:id="@+id/editText2"
-        android:layout_width="269dp"
-        android:layout_height="37dp"
+        android:layout_width="263dp"
+        android:layout_height="47dp"
         android:hint="密码"
         app:layout_constraintBottom_toTopOf="@+id/btn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.514"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText"
-        app:layout_constraintVertical_bias="0.46" />
+        app:layout_constraintVertical_bias="0.547" />
+
+    <EditText
+        android:id="@+id/editText3"
+        android:layout_width="264dp"
+        android:layout_height="45dp"
+        android:hint="统一认证码"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.32" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

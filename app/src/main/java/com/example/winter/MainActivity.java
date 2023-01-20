@@ -1,10 +1,7 @@
 package com.example.winter;
 
-import static java.lang.System.in;
-
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,12 +16,12 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity {
-    private EditText mEditText;
+    private EditText mEditText;//学号
+    private EditText mEditText0;//统一认证码
     private Button mbutton;
-    private EditText mEdiText2;
+    private EditText mEdiText2;//密码
     private Handler mHandler;
 
     @Override
@@ -32,19 +29,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
-        Scanner scan = new Scanner(in);
-        int number = scan.nextInt();
-        Scanner scan2 = new Scanner(in);
-        String key = scan.next();
+//        Scanner scan = new Scanner(in);
+//        int number = scan.nextInt();
+//        Scanner scan2 = new Scanner(in);
+//        String key = scan.next();
         mbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //sendGetNetRequest("http://jwzx.cqupt.edu.cn/login.php");
                 //注意这里的参数是以键值对的形式提交的，但网络请求的参数不仅仅只有键值对类型的，还有很多，具体去看我给你们推荐的那几篇文章和视频，由于时间的问题只讲这一种。
                 HashMap<String, String> map = new HashMap<>();
-                map.put("统一认证码", "number");
-                map.put("密码", "key");
-                sendPostNetRequest("http://jwzx.cqupt.edu.cn/kebiao/kb_stu.php?xh=" + number, map);
+                map.put("统一认证码", "mEditText0");
+                map.put("密码", "mEdiText2");
+                sendPostNetRequest("http://jwzx.cqupt.edu.cn/kebiao/kb_stu.php?xh=" + mEditText, map);
             }
         });
 
@@ -75,9 +72,12 @@ public class MainActivity extends AppCompatActivity {
                                 dataToWrite.length() - 1).getBytes());//去除最后一个&
                         InputStream in = connection.getInputStream();//从接口处获取输入
                         String responseData = StreamToString(in);//这里就是服务器返回的
-                        Message message = new Message();
-                        message.obj = responseData;
-                        mHandler.sendMessage(message);
+                        System.out.println(responseData);
+//                        Message message = new Message();
+//                        message.obj = responseData;
+//                        mHandler.sendMessage(message);
+
+
                         //Log.d("RQ", "sendPostNetRequest: " + responseData);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -155,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView() {
         mEditText = findViewById(R.id.editText);
+        mEditText0 = findViewById(R.id.editText3);
         mbutton = findViewById(R.id.btn);
         mEdiText2 = findViewById(R.id.editText2);
         mHandler = new MyHandler();
