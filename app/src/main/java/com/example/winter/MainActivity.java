@@ -1,10 +1,10 @@
 package com.example.winter;
 
-import static com.google.android.material.button.MaterialButtonToggleGroup.CornerData.start;
 import static java.lang.System.in;
 
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText mEditText;
     private Button mbutton;
     private EditText mEdiText2;
+    private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +75,10 @@ public class MainActivity extends AppCompatActivity {
                                 dataToWrite.length() - 1).getBytes());//去除最后一个&
                         InputStream in = connection.getInputStream();//从接口处获取输入
                         String responseData = StreamToString(in);//这里就是服务器返回的
-                        Log.d("RQ", "sendPostNetRequest: " + responseData);
+                        Message message = new Message();
+                        message.obj = responseData;
+                        mHandler.sendMessage(message);
+                        //Log.d("RQ", "sendPostNetRequest: " + responseData);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -85,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 //                    } catch (Exception e) {
 //                        e.printStackTrace();
 //                    }
-//                }
+                }
         ).start();
                 }
 
@@ -109,11 +113,7 @@ public class MainActivity extends AppCompatActivity {
 //        return sb.toString();//将拼接好的字符串返回出去
 //    }
 
-        private void initView () {
-            mEditText = findViewById(R.id.editText);
-            mbutton = findViewById(R.id.btn);
-            mEdiText2 = findViewById(R.id.editText2);
-        }
+
 
 
 //        try {
@@ -133,23 +133,30 @@ public class MainActivity extends AppCompatActivity {
 //        connection.setRequestProperty("Accept-Encoding", "gzip,deflate");
 
 
-        private String StreamToString (InputStream in){
-            StringBuilder sb = new StringBuilder();//新建一个StringBuilder，用于一点一点
-            String oneLine;//流转换为字符串的一行
-            BufferedReader reader = new BufferedReader(new InputStreamReader(in));//
-            try {
-                while ((oneLine = reader.readLine()) != null) {//readLine方法将读取一行
-                    sb.append(oneLine).append('\n');//拼接字符串并且增加换行，提高可读性
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    in.close();//关闭InputStream
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+    private String StreamToString(InputStream in) {
+        StringBuilder sb = new StringBuilder();//新建一个StringBuilder，用于一点一点
+        String oneLine;//流转换为字符串的一行
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));//
+        try {
+            while ((oneLine = reader.readLine()) != null) {//readLine方法将读取一行
+                sb.append(oneLine).append('\n');//拼接字符串并且增加换行，提高可读性
             }
-            return sb.toString();//将拼接好的字符串返回出去
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                in.close();//关闭InputStream
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+        return sb.toString();//将拼接好的字符串返回出去
     }
+
+    private void initView() {
+        mEditText = findViewById(R.id.editText);
+        mbutton = findViewById(R.id.btn);
+        mEdiText2 = findViewById(R.id.editText2);
+        mHandler = new MyHandler();
+    }
+}
