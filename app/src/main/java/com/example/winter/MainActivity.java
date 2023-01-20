@@ -1,7 +1,6 @@
 package com.example.winter;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,8 +20,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText mEditText;//学号
     private EditText mEditText0;//统一认证码
     private Button mbutton;
-    private EditText mEdiText2;//密码
-    private Handler mHandler;
+    private EditText password;//密码
+//    private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         mbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //sendGetNetRequest("http://jwzx.cqupt.edu.cn/login.php");
+//                sendGetNetRequest("http://jwzx.cqupt.edu.cn/login.php");
                 //注意这里的参数是以键值对的形式提交的，但网络请求的参数不仅仅只有键值对类型的，还有很多，具体去看我给你们推荐的那几篇文章和视频，由于时间的问题只讲这一种。
                 HashMap<String, String> map = new HashMap<>();
                 map.put("统一认证码", "mEditText0");
@@ -44,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 sendPostNetRequest("http://jwzx.cqupt.edu.cn/kebiao/kb_stu.php?xh=" + mEditText, map);
             }
         });
+
 
     }
 
@@ -72,7 +72,12 @@ public class MainActivity extends AppCompatActivity {
                                 dataToWrite.length() - 1).getBytes());//去除最后一个&
                         InputStream in = connection.getInputStream();//从接口处获取输入
                         String responseData = StreamToString(in);//这里就是服务器返回的
-                        System.out.println(responseData);
+                        MainActivity2.startActivity(this, mEditText0, password);
+//                        Intent intent = new Intent(this, MainActivity2.class);
+//                        intent.putExtra("统一认证码","mEditText0");
+//                        intent.putExtra("密码", "password");
+//                        startActivity(intent);
+//                        System.out.println(responseData);
 //                        Message message = new Message();
 //                        message.obj = responseData;
 //                        mHandler.sendMessage(message);
@@ -157,7 +162,14 @@ public class MainActivity extends AppCompatActivity {
         mEditText = findViewById(R.id.editText);
         mEditText0 = findViewById(R.id.editText3);
         mbutton = findViewById(R.id.btn);
-        mEdiText2 = findViewById(R.id.editText2);
-        mHandler = new MyHandler();
+        password = findViewById(R.id.editText2);
+//        mHandler = new MyHandler();
     }
+//    public static void startActivity(Context context, String username,
+//                                     String password) {
+//        Intent intent = new Intent(context, MainActivity2.class);
+//        intent.putExtra(INTENT_USER_NAME, username);
+//        intent.putExtra(INTENT_PASSWORD, password);
+//        context.startActivity(intent);
+//    }
 }

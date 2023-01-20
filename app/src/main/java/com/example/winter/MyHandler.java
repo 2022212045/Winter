@@ -12,7 +12,7 @@ public class MyHandler extends Handler {
         //这个Message msg 就是从另一个线程传递过来的数据
         //解析
         String responseData = msg.obj.toString();
-        System.out.println(responseData);
-        //jsonDecodeTest(responseData);
+//        System.out.println(responseData);
+        jsonDecodeTest(responseData);
     }
 }
